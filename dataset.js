@@ -1,99 +1,99 @@
 const defaultDataset = {
   init: {
     answers: [
-      { content: "仕事を依頼したい", nextId: "job_offer" },
+      { content: "悩みを聴いて欲しい", nextId: "job_offer" },
       {
-        content: "エンジニアのキャリアについて相談したい",
+        content: "ママの手料理が食べたい",
         nextId: "consultant",
       },
-      { content: "学習コミュニティについて知りたい", nextId: "community" },
+      { content: "ママについて知りたい", nextId: "community" },
       { content: "お付き合いしたい", nextId: "dating" },
     ],
-    question: "こんにちは！🐯トラハックへのご用件はなんでしょうか？",
+    question: "いらっしゃい。何かようかしら？",
   },
   job_offer: {
     answers: [
-      { content: "Webサイトを制作してほしい", nextId: "website" },
-      { content: "Webアプリを開発してほしい", nextId: "webapp" },
-      { content: "自動化ツールを作ってほしい", nextId: "automation_tool" },
+      { content: "人生について", nextId: "website" },
+      { content: "お金の悩み", nextId: "webapp" },
+      { content: "夢が見つからない", nextId: "automation_tool" },
       { content: "その他", nextId: "other_jobs" },
     ],
-    question: "どのようなお仕事でしょうか？",
+    question: "悩みを言いなさい",
   },
   website: {
     answers: [
-      { content: "問い合わせる", nextId: "contact" },
+      { content: "問い合わせ", nextId: "contact" },
       { content: "最初の質問に戻る", nextId: "init" },
     ],
-    question: "Webサイト細作についてですね。コチラからお問い合わせできます。",
+    question: "まあ、いきなり重い話ねえ。いいわ。まずは連絡して頂戴。",
   },
   webapp: {
     answers: [
-      { content: "問い合わせる", nextId: "contact" },
+      { content: "問い合わせ", nextId: "contact" },
       { content: "最初の質問に戻る", nextId: "init" },
     ],
-    question: "Webアプリ開発についてですね。コチラからお問い合わせできます。",
+    question: "元本保証の儲け話なら聞くわよ＄＄＄＄キラーン",
   },
   automation_tool: {
     answers: [
-      { content: "問い合わせる", nextId: "contact" },
+      { content: "問い合わせ", nextId: "contact" },
       { content: "最初の質問に戻る", nextId: "init" },
     ],
-    question:
-      "自動化ツール開発についてですね。コチラからお問い合わせできます。",
+    question: "夢はあるわ！今すぐ連絡しなさい！",
   },
   other_jobs: {
     answers: [
       { content: "問い合わせる", nextId: "contact" },
       { content: "最初の質問に戻る", nextId: "init" },
     ],
-    question: "その他についてですね。コチラからお問い合わせできます。",
+    question: "私の何がしりたいの？ふふふ、いいわよ。とりあえず連絡しなさい",
   },
   consultant: {
     answers: [
       {
-        content: "YouTubeで動画を見る",
-        nextId: "https://www.youtube.com/channel/UC-bOAxx-YOsviSmqh8COR0w",
+        content: "レシピ動画を見る",
+        nextId:
+          "https://www.youtube.com/channel/UCrHWsS4XVNBaA_jXSphykGA?view_as=subscriber",
       },
-      { content: "学習コミュニティについて知りたい", nextId: "community" },
+      { content: "しげじーママについて知りたい", nextId: "community" },
       { content: "最初の質問に戻る", nextId: "init" },
     ],
     question:
-      "トラハックは普段からYouTubeでキャリアについて発信しています。また、僕が運営するエンジニア向け学習コミュニティ内でも相談に乗っていますよ。",
+      "いいわよ。たっぷり食べさせてあげるわよお店にいらっしゃい。美味しいく食べる姿を見るのが私の好物なのよ♡♡♡♡。こられないならYouTubeを観なさい私の秘密のレシピをみせちゃってるのよ。",
   },
   community: {
     answers: [
-      { content: "どんな活動をしているの？", nextId: "community_activity" },
+      { content: "もっと知りたい", nextId: "community_activity" },
       {
-        content: "コミュニティに参加したい",
-        nextId: "https://torahack.web.app/community/",
+        content: "お店に行きたい",
+        nextId: "https://creativecafe.jp/",
       },
       { content: "最初の質問に戻る", nextId: "init" },
     ],
     question:
-      "2020年3月から学習コミュニティを始めました！🎉Webエンジニアへの転職を目指す人向けに、プログラミングを教えたりキャリアの相談に乗っています。",
+      "いつも誰かの悩みを聞いているの。ふふふ、それがあたしの、生・き・が・い・なの♡♡♡。",
   },
   community_activity: {
     answers: [
       {
-        content: "さらに詳細を知りたい",
-        nextId: "https://youtu.be/tIzE7hUDbBM",
+        content: "ファンレーターを送る",
+        nextId: "contact",
       },
       {
-        content: "コミュニティに参加したい",
-        nextId: "https://torahack.web.app/community/",
+        content: "しげじーママに会いたい",
+        nextId: "https://creativecafe.jp/",
       },
       { content: "最初の質問に戻る", nextId: "init" },
     ],
     question:
-      "フロントエンド向けの教材の提供、キャリアや勉強法に関するメルマガの配信、週1のオンライン作業会などを開催しています！\n詳細はYouTube動画で紹介しています。",
+      "なんて嬉しいこと言ってくれるの。わかったわ私の秘密を教えてあげる♡いい？よく覚えておいてね。私の好物はハイボールとチョコバットよ。忘れないでねチョコバット。",
   },
   dating: {
     answers: [
-      { content: "DMする", nextId: "https://twitter.com/torahack_" },
+      { content: "ランチに行く", nextId: "contact" },
       { content: "最初の質問に戻る", nextId: "init" },
     ],
-    question: "まずは一緒にランチでもいかがですか？DMしてください😘",
+    question: "なんてストレートな子なの！気に入ったわランチ行くわよ",
   },
 };
 

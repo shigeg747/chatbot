@@ -2,6 +2,7 @@ import React from "react";
 import defaultDataset from "./dataset";
 import "./assets/styles/style.css";
 import { AnswersList, Chats } from "./components/index";
+import FormDialog from "./components/Forms/FormDialog";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,35 +15,80 @@ export default class App extends React.Component {
       dataset: defaultDataset,
       open: false,
     };
+
+    this.selectAnswer = this.selectAnswer.bind(this);
+    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
-  initAnswer = () => {
-    const initDataset = this.state.dataset[this.state.currentId];
-    const initAnswers = initDataset.answers;
-
-    this.setState({
-      answers: initAnswers,
-    });
-  };
-
-  initChats = () => {
-    const initDataset = this.state.dataset[this.state.currentId];
-    const chat = {
-      text: initDataset.question,
-      type: "question",
-    };
-
+  displayNextQuestion = (nextQuestionId) => {
     const chats = this.state.chats;
-    chats.push(chat); //30行目で宣言したchat{text:initDataset.question,type:"question"}を変数35行目で宣言したchats(11行目のchats:[]を継承→つまり空)にpushしている
+    chats.push({
+      text: this.state.dataset[nextQuestionId].question,
+      type: "question",
+    });
 
     this.setState({
-      chats: chats, //36行目でpushされたデータをsetStateして置き換える。。setStateさせると事で初期値を残しつつ新しい状態に置き換わる。
+      answers: this.state.dataset[nextQuestionId].answers,
+      chats: chats,
+      currentId: nextQuestionId,
     });
   };
+
+  selectAnswer = (selectedAnswer, nextQuestionId) => {
+    switch (true) {
+      case nextQuestionId === "init":
+        setTimeout(() => this.displayNextQuestion(nextQuestionId), 500);
+        break;
+
+      case nextQuestionId === "contact":
+        this.handleClickOpen();
+        break;
+
+      case /^https:*/.test(nextQuestionId):
+        const a = document.createElement("a");
+        a.href = nextQuestionId;
+        a.target = "/blank";
+        a.click();
+        break;
+      default:
+        const chats = this.state.chats;
+        chats.push({
+          text: selectedAnswer,
+          type: "answer",
+        });
+
+        this.setState({
+          chats: chats, //setStateさせると事で初期値を残しつつ新しい状態に置き換わる。
+        });
+
+        setTimeout(() => this.displayNextQuestion(nextQuestionId), 1000);
+        break;
+    }
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  // initChats = () => {
+  //   const initDataset = this.state.dataset[this.state.currentId];
+  // };
 
   componentDidMount() {
-    this.initChats();
-    this.initAnswer();
+    const initAnswer = "";
+    this.selectAnswer(initAnswer, this.state.currentId);
+  }
+
+  componentDidUpdate() {
+    const scrollArea = document.getElementById("scroll-area");
+    if (scrollArea) {
+      scrollArea.scrollTop = scrollArea.scrollHeight;
+    }
   }
 
   render() {
@@ -50,7 +96,11 @@ export default class App extends React.Component {
       <section className="c-section">
         <div className="c-box ">
           <Chats chats={this.state.chats} />
-          <AnswersList answers={this.state.answers} />
+          <AnswersList
+            answers={this.state.answers}
+            select={this.selectAnswer}
+          />
+          <FormDialog open={this.state.open} handleClose={this.handleClose} />
         </div>
       </section>
     );
