@@ -1,8 +1,9 @@
-import React from "react";
-import defaultDataset from "./dataset";
-import "./assets/styles/style.css";
-import { AnswersList, Chats } from "./components/index";
-import FormDialog from "./components/Forms/FormDialog";
+import React from 'react';
+import defaultDataset from './dataset';
+import './assets/styles/style.css';
+import { AnswersList, Chats } from './components/index';
+import FormDialog from './components/Forms/FormDialog';
+import { db } from './firebase/index';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -10,9 +11,9 @@ export default class App extends React.Component {
     this.state = {
       answers: [],
       chats: [],
-      currentId: "init",
+      currentId: 'init',
       // dataset: {},←初期化の時は連想配列{ name:'田中',age:'89',sex:'female' }
-      dataset: defaultDataset,
+      dataset: {},
       open: false,
     };
 
@@ -25,7 +26,7 @@ export default class App extends React.Component {
     const chats = this.state.chats;
     chats.push({
       text: this.state.dataset[nextQuestionId].question,
-      type: "question",
+      type: 'question',
     });
 
     this.setState({
@@ -37,25 +38,25 @@ export default class App extends React.Component {
 
   selectAnswer = (selectedAnswer, nextQuestionId) => {
     switch (true) {
-      case nextQuestionId === "init":
+      case nextQuestionId === 'init':
         setTimeout(() => this.displayNextQuestion(nextQuestionId), 500);
         break;
 
-      case nextQuestionId === "contact":
+      case nextQuestionId === 'contact':
         this.handleClickOpen();
         break;
 
       case /^https:*/.test(nextQuestionId):
-        const a = document.createElement("a");
+        const a = document.createElement('a');
         a.href = nextQuestionId;
-        a.target = "/blank";
+        a.target = '/blank';
         a.click();
         break;
       default:
         const chats = this.state.chats;
         chats.push({
           text: selectedAnswer,
-          type: "answer",
+          type: 'answer',
         });
 
         this.setState({
@@ -79,13 +80,31 @@ export default class App extends React.Component {
   //   const initDataset = this.state.dataset[this.state.currentId];
   // };
 
+  initDataset = (dataset) => {
+    this.setState({ dataset: dataset });
+  };
+
   componentDidMount() {
-    const initAnswer = "";
-    this.selectAnswer(initAnswer, this.state.currentId);
+    (async () => {
+      const dataset = this.state.dataset;
+      await db
+        .collection('questions')
+        .get()
+        .then((snapshots) => {
+          snapshots.forEach((doc) => {
+            const id = doc.id;
+            const data = doc.data();
+            dataset[id] = data;
+          });
+        });
+      this.initDataset(dataset);
+      const initAnswer = '';
+      this.selectAnswer(initAnswer, this.state.currentId);
+    })();
   }
 
   componentDidUpdate() {
-    const scrollArea = document.getElementById("scroll-area");
+    const scrollArea = document.getElementById('scroll-area');
     if (scrollArea) {
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
